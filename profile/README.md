@@ -190,8 +190,8 @@ signal that is not present. Improvement has to come from better inputs.
 
 | Dataset | Why it fits |
 |---|---|
-| [KuaiRec](https://kuairec.com/) | Short-video interactions from Kuaishou with a near fully-observed user-item matrix &mdash; unusual, and it removes the missing-not-at-random problem that distorts offline evaluation. |
-| [KuaiRand](https://kuairand.com/) | Sequential short-video data including *randomly exposed* videos, which gives an unbiased slice for evaluating recommenders rather than only logged-policy traffic. |
+| [KuaiRec](https://kuairec.com/) | Kuaishou short-video logs carrying play duration and **watch ratio** &mdash; the two features that actually work here &mdash; over 12.5M interactions, with a small matrix at 99.6% density. A fully-observed matrix removes the missing-not-at-random problem that quietly distorts offline evaluation. |
+| [KuaiRand](https://kuairand.com/) | Sequential Kuaishou data whose 12 feedback signals include likes, follows, comments and forwards &mdash; the exact actions this project's label is built from &mdash; plus millions of *randomly exposed* items, giving an unbiased slice instead of only logged-policy traffic. |
 | [Tenrec](https://tenrec0.github.io/) | Large multipurpose benchmark from Tencent feeds, built for transfer, cold-start and multi-task setups across several scenarios. |
 | [Taobao UserBehavior](https://tianchi.aliyun.com/dataset/649?lang=en-us) | ~100M behaviour records with genuine user sequences, for sequential and session-based modelling at scale. |
 | [RecSysDatasets](https://github.com/RUCAIBox/RecSysDatasets) | A maintained index of public recommendation datasets with conversion tooling, for choosing by property rather than by familiarity. |
