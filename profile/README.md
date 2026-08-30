@@ -1,60 +1,49 @@
-# Cognitive Shorts
+# PSCRedefine
 
-An engagement prediction system for short video, taken from a notebook to four
-deployable services &mdash; and a second project that went back and tested what it
-claimed.
+Two related projects on short-video engagement prediction. The first is an
+off-policy evaluation study on real logs; the second is the serving stack it
+grew out of.
 
-## The system &mdash; four services
+## [GroundTruth](https://github.com/PSCRedefine/groundtruth) — unbiased offline evaluation on real logs
 
-| | Repository | The question it answers | Tests |
-|---|---|---|---:|
-| 1 | [Single Prediction](https://github.com/PSCRedefine/SinglePrediction) | Is the model right? | 43 |
-| 2 | [Batch Prediction](https://github.com/PSCRedefine/BatchPrediction) | Does it hold up at volume? | 78 |
-| 3 | [Model Info](https://github.com/PSCRedefine/ModelInfo) | Is the artefact in memory the one that shipped? | 70 |
-| 4 | [Analytics Dashboard](https://github.com/PSCRedefine/AnalyticsDashboard) | Is it still healthy today? | 101 |
+[KuaiRand](https://kuairand.com/) contains two weeks in which Kuaishou inserted
+uniformly random videos into live feeds, giving a genuinely missing-at-random
+test set. Training on algorithmic exposure and testing on both mechanisms over
+the identical calendar window isolates exposure bias from temporal drift.
 
-A leakage-safe feature pipeline, cost-aware model selection under a paired-bootstrap
-tie test, an operating point chosen against a traffic budget rather than by maximising
-F1, then model introspection and drift monitoring around it.
+Findings so far:
 
-Four candidate models finished statistically tied &mdash; every gap's confidence interval
-included zero &mdash; so operating cost broke the tie. The shipped artefact is **1,958x
-smaller** and 34x faster than the runner-up, with no measurable loss.
+- **Ranking transfers across exposure policies; calibration does not.**
+  Lift at the top 23.9% of traffic: 3.428x on algorithmic exposure, 3.363x on
+  random (−2.0%). Mean predicted ÷ actual probability: 0.96x on algorithmic,
+  **2.07x** on random. A team validating offline would watch the ranking hold
+  and ship probabilities that are wrong by a factor of two.
+- **No single calibrator fixes both.** A calibrator fitted on randomized logs
+  is correct there and off on served traffic by roughly the same factor in the
+  other direction. Calibration is a property of the exposure policy, not of
+  the model.
+- **The upstream project's "signal ceiling" was an artifact of its data.**
+  The same feature-screening rule that kept 2 of 25 features on the synthetic
+  set keeps 24 of 37 on real logs; `watch_ratio` alone reaches 0.7486 ROC-AUC.
 
-`292 tests` · `CI on Python 3.11 / 3.12 / 3.13` · `MIT`
+`ROC-AUC 0.8811` · `2.6M interactions` · every figure reproduces from a
+committed JSON artifact · `./scripts/get_data.sh` fetches the dataset
 
-## The validation &mdash; [GroundTruth](https://github.com/PSCRedefine/groundtruth)
+## Cognitive Shorts — the serving stack
 
-Cognitive Shorts shipped with a stated limitation: its offline lift had never been
-validated against a randomized holdout. [KuaiRand](https://kuairand.com/) supplies one
-&mdash; Kuaishou injected uniformly random videos into live recommendation feeds for two
-weeks, so testing both mechanisms across the identical calendar window isolates
-exposure bias from temporal drift.
+Four services around one model: [SinglePrediction](https://github.com/PSCRedefine/SinglePrediction)
+(train, select, serve), [BatchPrediction](https://github.com/PSCRedefine/BatchPrediction)
+(per-row fault isolation at volume), [ModelInfo](https://github.com/PSCRedefine/ModelInfo)
+(artifact introspection), [AnalyticsDashboard](https://github.com/PSCRedefine/AnalyticsDashboard)
+(request logging and drift monitoring).
 
-**The ceiling was the dataset, not the problem.** 2 of 25 request-time features carried
-signal on the synthetic data; **24 of 37** do on real logs, and a single feature reaches
-**0.7486**. The 0.58&ndash;0.60 ROC-AUC ceiling was a property of the synthetic set's
-corrupted joins, not of engagement prediction.
+Built on a synthetic course dataset, which is where its discipline came from:
+a leakage blacklist enforced by tests, chronological splits, paired-bootstrap
+model selection with ties broken by serving cost, and an operating point set
+against a traffic budget after finding the default 0.5 threshold degenerate.
+When the data itself turned out to be corrupted — snapshot joins disagreeing
+with logs on 97% of rows — measuring that honestly became the motivation for
+GroundTruth.
 
-**Ranking transfers. Calibration does not.**
-
-| Metric | Algorithmic | Random | |
-|---|---:|---:|---|
-| Lift @ top 23.9% | 3.428x | 3.363x | −2.0% — transfers |
-| Mean predicted ÷ actual | 0.96x | **2.07x** | **breaks** |
-
-A team validating offline would watch the ranking hold, conclude the model transfers,
-and ship probabilities that are silently wrong.
-
-**Calibration is a property of the exposure policy, not of the model.** A calibrator
-fitted on randomized logs ships there and is rejected on served traffic, by almost
-exactly the same factor in the other direction. The Brier gate &mdash; adopted in Cognitive
-Shorts for an unrelated reason, to stop ECE being gamed by variance collapse &mdash; catches
-this on its own, with no special-casing.
-
-`ROC-AUC 0.8811` · `2.6M interactions` · `every figure reproduces from a committed JSON artefact`
-
----
-
-Each repository documents what is known to be wrong with it before it documents what
-works, and what it would need before carrying real traffic in `docs/PRODUCTION_READINESS.md`.
+`292 tests` · `CI on Python 3.11 / 3.12 / 3.13` · `MIT` · each repo states its
+known gaps in `docs/PRODUCTION_READINESS.md`
