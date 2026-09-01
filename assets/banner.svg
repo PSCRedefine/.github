@@ -1,0 +1,46 @@
+<svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PSC Redefine">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="55%" stop-color="#141b34"/>
+      <stop offset="100%" stop-color="#1b2a52"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6ee7ff"/>
+      <stop offset="50%" stop-color="#8b7bff"/>
+      <stop offset="100%" stop-color="#ff7bd5"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#8b7bff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#8b7bff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#6ee7ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6ee7ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="320" fill="url(#bg)"/>
+  <circle cx="1010" cy="60" r="260" fill="url(#glow1)"/>
+  <circle cx="150" cy="290" r="220" fill="url(#glow2)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 80 H1200"/><path d="M0 160 H1200"/><path d="M0 240 H1200"/>
+    <path d="M200 0 V320"/><path d="M400 0 V320"/><path d="M600 0 V320"/><path d="M800 0 V320"/><path d="M1000 0 V320"/>
+  </g>
+
+  <!-- probability curve motif -->
+  <path d="M700 250 C 800 250, 830 120, 900 100 S 1080 70, 1160 66" fill="none" stroke="url(#accent)" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  <g fill="#6ee7ff">
+    <circle cx="760" cy="238" r="6"/>
+    <circle cx="900" cy="100" r="6" fill="#8b7bff"/>
+    <circle cx="1060" cy="72" r="6" fill="#ff7bd5"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="80" y="150" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="800" fill="#ffffff" letter-spacing="1">PSC <tspan fill="url(#accent)">Redefine</tspan></text>
+  <rect x="82" y="172" width="120" height="6" rx="3" fill="url(#accent)"/>
+  <text x="80" y="222" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="26" fill="#c7d2ea">Calibrated engagement prediction for short-form video.</text>
+  <text x="80" y="262" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#8391b3">Calibrated probabilities · millisecond serving · monitoring built in</text>
+</svg>
