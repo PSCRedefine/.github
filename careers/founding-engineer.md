@@ -4,7 +4,7 @@
 
 ## About us
 
-PSC Redefine builds engagement prediction you can reason about: calibrated probabilities instead of opaque scores, evaluation that separates real signal from exposure bias, and monitoring shipped as part of the model. Our research runs on real production logs at scale (322M interactions, ROC-AUC 0.9147 — see [RankShift](https://github.com/PSCRedefine/rankshift)), and our serving platform, **Cognitive Shorts**, runs today as four services — real-time scoring, batch pipelines, model introspection, and operational analytics ([see the code](https://github.com/PSCRedefine)).
+PSC Redefine builds engagement prediction you can reason about: calibrated probabilities instead of opaque scores, evaluation that separates real signal from exposure bias, and monitoring shipped as part of the model. Our research runs on real production logs at scale (322M interactions, ROC-AUC 0.9147 — see [RankShift](https://github.com/PSCRedefine/rankshift)), and our serving platform, **RankShift Serving**, runs today as four services — real-time scoring, batch pipelines, model introspection, and operational analytics ([see the code](https://github.com/PSCRedefine)).
 
 You'd be employee #1, working directly with the founder ([Mengyun Wang](https://github.com/xiyiji), ex-Meta ML infrastructure).
 
