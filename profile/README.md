@@ -20,7 +20,7 @@ Short-form feeds are ranked by models nobody can audit, validated offline on log
 
 Our work runs on real production logs at scale: **322M interactions, ROC-AUC 0.9147**, every figure reproduced from a committed artifact.
 
-## Research: [RankShift](https://github.com/PSCRedefine/rankshift)
+## Research: [RankShift](https://github.com/PSCRedefine/rankshift) · [live page](https://rankshift-nine.vercel.app/)
 
 KuaiRand's uniformly-random exposure window gives a genuinely missing-at-random test set — a rare gold standard. Using it, we isolate what survives a policy change and what silently breaks:
 
@@ -28,7 +28,7 @@ KuaiRand's uniformly-random exposure window gives a genuinely missing-at-random 
 - **Off-policy estimators graded against ground truth.** IPS, SNIPS, DM and DR all miss the uniform policy's true value (3.0–3.9× off) — item-level propensities can't express the user–video matching that drives most of the exposure bias.
 - **Findings replicate at 322M rows**, evaluated in full, out of core (DuckDB), where the calibration break grows to 2.29×.
 
-## The serving stack: RankShift Serving
+## The serving stack: RankShift Serving · [plain-language tour](https://rankshift-nine.vercel.app/serving/)
 
 | Service | What it does |
 |---|---|
